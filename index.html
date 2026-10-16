@@ -1,1 +1,339 @@
-<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Essensplaner V0.7</title><style>body{font-family:Arial,sans-serif;background:#F8F5EF;margin:0;color:#4b3f35}header{background:#7BAE7F;color:#fff;padding:15px;text-align:center}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px}.tile{aspect-ratio:1;background:#fff;border-radius:20px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:bold;box-shadow:0 2px 8px rgba(0,0,0,.1);cursor:pointer}.view{display:none;padding:16px}.card{background:#fff;border-radius:14px;padding:12px;margin:8px 0}.btn{background:#D97757;color:#fff;border:none;border-radius:10px;padding:10px;margin:4px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.day{background:#fff;padding:8px;border-radius:8px;text-align:center;cursor:pointer}.today{background:#7BAE7F;color:#fff}</style></head><body><header><h2>🍽️ Familien-Küchenplaner V0.7</h2></header><div id="home"><div class="grid"><div class="tile" onclick="openView('week')">🗓️<br>Wochenplan</div><div class="tile" onclick="openView('recipes')">📖<br>Rezepte</div><div class="tile" onclick="openView('shop')">🛒<br>Einkaufsliste</div><div class="tile" onclick="openView('stock')">📦<br>Vorräte</div><div class="tile" onclick="openView('fav')">⭐<br>Favoriten</div><div class="tile" onclick="openView('settings')">⚙️<br>Einstellungen</div></div></div><div id='week' class='view'><button class='btn' onclick='home()'>Zurück</button><h3>KW 42</h3><div class='card'>12.10.2026 - 18.10.2026</div><button class='btn'>◀ Woche</button><button class='btn'>Woche ▶</button><h3>Kalender</h3><div class='calendar'><div class='day'>Mo<br>12🍝</div><div class='day'>Di<br>13🌶️</div><div class='day'>Mi<br>14🐟</div><div class='day today'>Do<br>15🥘</div><div class='day'>Fr<br>16🍕</div><div class='day'>Sa<br>17🔥</div><div class='day'>So<br>18🥗</div></div><h3>Montag bis Sonntag</h3><div class='card'><b>Montag 12.10.2026</b><br>🍝 Spaghetti Bolognese - 8 Portionen</div><div class='card'><b>Dienstag 13.10.2026</b><br>🌶️ Chili con Carne - 6 Portionen</div><div class='card'><b>Mittwoch 14.10.2026</b><br>🐟 Lachs mit Reis - 4 Portionen</div><div class='card'><b>Donnerstag 15.10.2026</b><br>🥘 Lasagne - 8 Portionen</div><div class='card'><b>Freitag 16.10.2026</b><br>🍕 Pizza - 4 Portionen</div><div class='card'><b>Samstag 17.10.2026</b><br>🔥 Grillen - 6 Portionen</div><div class='card'><b>Sonntag 18.10.2026</b><br>🥗 Gemüsepfanne - 4 Portionen</div></div><div id='recipes' class='view'><button class='btn' onclick='home()'>Zurück</button><h3>Rezepte</h3><input placeholder='🔍 Rezept suchen' style='width:100%;padding:8px'><div class='card'>🍝 Spaghetti Bolognese</div><div class='card'>🌶️ Chili con Carne</div><div class='card'>🥘 Lasagne</div></div><div id='shop' class='view'><button class='btn' onclick='home()'>Zurück</button><h3>Einkaufsliste</h3><div class='card'>🏪 Aldi</div><div class='card'>🥬 Obst & Gemüse<br>☐ Paprika<br>☐ Zwiebeln</div><div class='card'>🥩 Fleisch<br>☐ Hackfleisch</div><button class='btn'>✅ Einkauf erledigen</button></div><div id='stock' class='view'><button class='btn' onclick='home()'>Zurück</button><h3>📦 Vorräte</h3><div class='card'>🥫 Vorratskammer</div><div class='card'>❄️ Gefrierschrank</div><div class='card'>🍽️ Gerichte</div></div><div id='fav' class='view'><button class='btn' onclick='home()'>Zurück</button><div class='card'>⭐ Lasagne</div><div class='card'>⭐ Chili con Carne</div></div><div id='settings' class='view'><button class='btn' onclick='home()'>Zurück</button><h3>Einstellungen</h3><div class='card'>🏪 Supermarkt: Aldi</div><div class='card'>🔄 Reihenfolge Abteilungen bearbeiten</div></div><script>function openView(id){document.getElementById('home').style.display='none';document.querySelectorAll('.view').forEach(v=>v.style.display='none');document.getElementById(id).style.display='block';}function home(){document.querySelectorAll('.view').forEach(v=>v.style.display='none');document.getElementById('home').style.display='block';}</script></body></html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Familienplaner</title>
+
+<style>
+
+:root{
+    --green:#7BAE7F;
+    --orange:#D97757;
+    --background:#F8F5EF;
+    --card:#ffffff;
+    --text:#4b3f35;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:var(--background);
+    color:var(--text);
+}
+
+header{
+    background:var(--green);
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+header h1{
+    margin:0;
+}
+
+.heute{
+    background:white;
+    margin:15px;
+    padding:15px;
+    border-radius:15px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    padding:15px;
+}
+
+.tile{
+    background:white;
+    border-radius:20px;
+    aspect-ratio:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.tile:hover{
+    transform:scale(1.03);
+}
+
+.tile span{
+    font-size:40px;
+}
+
+.page{
+    display:none;
+    padding:15px;
+}
+
+.card{
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+button{
+    background:var(--orange);
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.calendar{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:5px;
+}
+
+.day{
+    background:white;
+    padding:10px;
+    text-align:center;
+    border-radius:8px;
+    font-size:12px;
+}
+
+.active-day{
+    background:var(--green);
+    color:white;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🍽️ Familienplaner</h1>
+</header>
+
+<div id="home">
+
+    <div class="heute">
+        <strong>Heute</strong><br>
+        🍝 Spaghetti Bolognese<br>
+        8 Portionen
+    </div>
+
+    <div class="grid">
+
+        <div class="tile" onclick="showPage('wochenplan')">
+            <span>🗓️</span>
+            Wochenplan
+        </div>
+
+        <div class="tile" onclick="showPage('rezepte')">
+            <span>📖</span>
+            Rezepte
+        </div>
+
+        <div class="tile" onclick="showPage('einkauf')">
+            <span>🛒</span>
+            Einkaufsliste
+        </div>
+
+        <div class="tile" onclick="showPage('vorraete')">
+            <span>📦</span>
+            Vorräte
+        </div>
+
+        <div class="tile" onclick="showPage('favoriten')">
+            <span>⭐</span>
+            Favoriten
+        </div>
+
+        <div class="tile" onclick="showPage('einstellungen')">
+            <span>⚙️</span>
+            Einstellungen
+        </div>
+
+    </div>
+
+</div>
+
+<div id="wochenplan" class="page">
+
+    <button onclick="goHome()">← Zurück</button>
+
+    <h2>🗓️ Wochenplan</h2>
+
+    <div class="card">
+        KW 42<br>
+        12.10.2026 - 18.10.2026
+    </div>
+
+    <div class="calendar">
+
+        <div class="day">Mo<br>12</div>
+        <div class="day">Di<br>13</div>
+        <div class="day">Mi<br>14</div>
+        <div class="day active-day">Do<br>15</div>
+        <div class="day">Fr<br>16</div>
+        <div class="day">Sa<br>17</div>
+        <div class="day">So<br>18</div>
+
+    </div>
+
+    <div class="card">
+        Montag<br>
+        🍝 Spaghetti Bolognese
+    </div>
+
+    <div class="card">
+        Dienstag<br>
+        🌶️ Chili con Carne
+    </div>
+
+    <div class="card">
+        Mittwoch<br>
+        🐟 Lachs mit Reis
+    </div>
+
+    <div class="card">
+        Donnerstag<br>
+        🥘 Lasagne
+    </div>
+
+    <div class="card">
+        Freitag<br>
+        🍕 Pizza
+    </div>
+
+    <div class="card">
+        Samstag<br>
+        🔥 Grillen
+    </div>
+
+    <div class="card">
+        Sonntag<br>
+        🥗 Gemüsepfanne
+    </div>
+
+</div>
+
+<div id="rezepte" class="page">
+
+    <button onclick="goHome()">← Zurück</button>
+
+    <h2>📖 Rezepte</h2>
+
+    <input placeholder="🔍 Rezept suchen">
+
+    <div class="card">🍝 Spaghetti Bolognese</div>
+    <div class="card">🌶️ Chili con Carne</div>
+    <div class="card">🥘 Lasagne</div>
+
+</div>
+
+<div id="einkauf" class="page">
+
+    <button onclick="goHome()">← Zurück</button>
+
+    <h2>🛒 Einkaufsliste</h2>
+
+    <div class="card">
+        🏪 Aldi
+    </div>
+
+    <div class="card">
+        🥬 Obst & Gemüse<br>
+        ☐ Paprika<br>
+        ☐ Zwiebeln
+    </div>
+
+    <div class="card">
+        🥩 Fleisch<br>
+        ☐ Hackfleisch
+    </div>
+
+</div>
+
+<div id="vorraete" class="page">
+
+    <button onclick="goHome()">← Zurück</button>
+
+    <h2>📦 Vorräte</h2>
+
+    <div class="card">🥫 Vorratskammer</div>
+    <div class="card">❄️ Gefrierschrank</div>
+    <div class="card">🍽️ Gerichte</div>
+
+</div>
+
+<div id="favoriten" class="page">
+
+    <button onclick="goHome()">← Zurück</button>
+
+    <h2>⭐ Favoriten</h2>
+
+    <div class="card">Lasagne</div>
+    <div class="card">Chili con Carne</div>
+
+</div>
+
+<div id="einstellungen" class="page">
+
+    <button onclick="goHome()">← Zurück</button>
+
+    <h2>⚙️ Einstellungen</h2>
+
+    <div class="card">
+        🏪 Supermarkt: Aldi
+    </div>
+
+    <div class="card">
+        🔄 Reihenfolge Abteilungen
+    </div>
+
+</div>
+
+<script>
+
+function showPage(page){
+
+    document.getElementById("home").style.display="none";
+
+    document.querySelectorAll(".page")
+    .forEach(p=>p.style.display="none");
+
+    document.getElementById(page).style.display="block";
+}
+
+function goHome(){
+
+    document.querySelectorAll(".page")
+    .forEach(p=>p.style.display="none");
+
+    document.getElementById("home").style.display="block";
+}
+
+</script>
+
+</body>
+</html>
